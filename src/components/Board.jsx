@@ -100,7 +100,6 @@ class Board extends React.Component {
       <div className="board">
         <div>
           <Header match={this.props.match} history={this.props.history} />
-
           <h1 style={{ textAlign: 'center' }}>Welcome To Your ScrumBoard</h1>
           <div>
             <h1>Build Your Board</h1>

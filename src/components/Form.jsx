@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Componenet } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
 import { isLoggedIn } from '../actions/users.js';
-class Form extends React.Component {
+
+class Form extends Component {
   constructor(props) {
     super(props);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { logoutUser } from '../actions/users.js';
 
-class Header extends React.Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -12,9 +12,9 @@ class Header extends React.Component {
     console.log('from header', this.props);
     return (
       <div className="header">
-        <div>Scrum Didilyumptious</div>
+        <div>Scrumpty Dumpty</div>
         <div className="header-info">
-          <div />
+          <div></div>
           <div
             onClick={() => {
               axios
