@@ -1,4 +1,4 @@
-const { SimpleUser, User, fetchMongoData } = require('../mongo.js');
+const { SimpleUser } = require('../mongo.js');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt-nodejs");
 const SALT_WORK_FACTOR = 10;
@@ -63,8 +63,6 @@ const userController = {
 
   checkUserAuth: (req, res, next) => {
     const token = req.cookies.usertoken;
-    // dont trip, will delete this later
-    console.log("Token: ", token);
     if (!token) return res.status(403).send("No user token provided.");
     jwt.verify(token, JWT_SECRET, function(err, user) {
       if (err) {
@@ -85,7 +83,8 @@ module.exports = userController;
 
 function generateToken(user) {
     const u = {
-      username: user.username,
+      _id: user._id,
+      name: user.name,
       password: user.password,
     };
     return (token = jwt.sign(u, JWT_SECRET, {
