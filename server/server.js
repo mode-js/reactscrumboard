@@ -45,4 +45,8 @@ app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards
 
 app.get('/', (req, res) => res.sendFile(path.join(publicPath, 'index.html')) );
 
-app.listen(port, () => console.log(`server running on port ${port}`));
+const server = app.listen(port, () => {
+  console.log(`server running on port ${port}`)
+});
+
+module.exports = server;
