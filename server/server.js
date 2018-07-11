@@ -3,9 +3,15 @@ const path = require('path');
 const cors = require('cors');
 const request = require('request');
 const bodyParser = require('body-parser');
+
+const controllers = require('./controllers/index.js');
 const taskController = require('./controllers/taskController');
 const boardController = require('./controllers/boardController');
 const storyController = require('./controllers/storyController');
+
+//may need passport installed??
+
+const Sequelize = require('sequelize');
 
 const { SimpleUser, User, fetchMongoData } = require('./mongo.js');
 

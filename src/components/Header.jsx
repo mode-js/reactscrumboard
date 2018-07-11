@@ -14,7 +14,7 @@ class Header extends Component {
       <div className="header">
         <div>Scrumpty Dumpty</div>
         <div className="header-info">
-          <div></div>
+          <div />
           <div
             onClick={() => {
               axios
