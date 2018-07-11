@@ -20,7 +20,8 @@ const userController = {
               });
             } else {
               const token = generateToken(userData);
-              res.json({token: token});
+              res.cookie('usertoken',token, { maxAge: 900000, httpOnly: true });
+              res.status(200).send("Successful Login");
             }
           });
         } 
@@ -41,7 +42,8 @@ const userController = {
             { name: body.username, password: hash },
             (err, resMongo) => {
               const token = generateToken(resMongo);
-              res.json({token: token});
+              res.cookie('usertoken',token, { maxAge: 900000, httpOnly: true });
+              res.status(200).send("Successful User Creation");
             }
           );
         }

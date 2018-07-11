@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Cookies } from 'react-cookie';
 
 import { isLoggedIn } from '../actions/users.js';
 class Form extends React.Component {
@@ -32,11 +31,6 @@ class Form extends React.Component {
             if (res.data.error) {
               this.setState({ formError: res.data.error });
             } else {
-              const newcookie = new Cookies();
-              newcookie.set(
-                'usertoken',
-                res.data.token
-              );
               this.setState({ username: '', password: '' });
               this.props.isLoggedIn(res.data._id);
               this.props.history.push(`/test/${res.data._id}`);
@@ -66,11 +60,6 @@ class Form extends React.Component {
             if (res.data.error) {
               this.setState({ formError: res.data.error });
             } else {
-              const newcookie = new Cookies();
-              newcookie.set(
-                'usertoken',
-                res.data.token
-              );
               this.setState({ username: '', password: '' });
               this.props.isLoggedIn(res.data._id);
               this.props.history.push(`/test/${res.data._id}`);
