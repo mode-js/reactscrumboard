@@ -56,6 +56,11 @@ const userController = {
     });
   },
 
+  logout: (req, res) => {
+    res.clearCookie('usertoken', { maxAge: 900000, httpOnly: true });
+    res.send("User Logged Out");
+  },
+
   checkUserAuth: (req, res, next) => {
     const token = req.cookies.usertoken;
     // dont trip, will delete this later
@@ -87,9 +92,3 @@ function generateToken(user) {
       expiresIn: 60 * 60 * 24 // expires in 24 hours
     }));
   }
-
-// app.post('/logout', (req, res) => {
-//   SimpleUser.findOneAndUpdate({ _id: req.body._id }, { isLoggedIn: false }, (err, resMongo) => {
-//     res.send('logged-out');
-//   });
-// });
