@@ -17,34 +17,68 @@ class Form extends Component {
   onSubmitHandler(e) {
     e.preventDefault();
     const url = `http://localhost:3000${this.props.formRoute}`;
-    console.log(url);
-    if (this.state.password.trim() && this.state.username.trim()) {
-      axios
-        .post(url, {
-          username: this.state.username.trim(),
-          password: this.state.password.trim(),
-        })
-        .then(res => {
-          if (res.data.error) {
-            this.setState({ formError: res.data.error });
-          } else {
-            this.setState({ username: '', password: '' });
-            this.props.isLoggedIn(res.data._id);
-            this.props.history.push(`/test/${res.data._id}`);
-          }
-        });
-    } else {
-      let errorMessage;
 
-      if (!this.state.username.trim() && !this.state.password.trim()) {
-        errorMessage = 'Username and password required';
-      } else if (!this.state.username) {
-        errorMessage = 'Username required';
-      } else if (!this.state.password.trim()) {
-        errorMessage = 'Password required';
+    if ( '/signup' === this.props.formRoute) {
+      if (this.state.password.trim() && this.state.username.trim()) {
+
+        axios
+          .post(url, {
+            email: this.state.username.trim(),
+            username: this.state.username.trim(),
+            password: this.state.password.trim(),
+          })
+          .then(res => {
+            if (res.data.error) {
+              this.setState({ formError: res.data.error });
+            } else {
+              this.setState({ username: '', password: '' });
+              this.props.isLoggedIn(res.data._id);
+              this.props.history.push(`/test/${res.data._id}`);
+            }
+          });
+      } else {
+        let errorMessage;
+  
+        if (!this.state.username.trim() && !this.state.password.trim()) {
+          errorMessage = 'Username and password required';
+        } else if (!this.state.username) {
+          errorMessage = 'Username required';
+        } else if (!this.state.password.trim()) {
+          errorMessage = 'Password required';
+        }
+        this.setState({ formError: errorMessage });
       }
-      this.setState({ formError: errorMessage });
     }
+    if ( '/login' === this.props.formRoute) {
+      if (this.state.password.trim() && this.state.username.trim()) {
+        axios
+          .post(url, {
+            username: this.state.username.trim(),
+            password: this.state.password.trim(),
+          })
+          .then(res => {
+            if (res.data.error) {
+              this.setState({ formError: res.data.error });
+            } else {
+              this.setState({ username: '', password: '' });
+              this.props.isLoggedIn(res.data._id);
+              this.props.history.push(`/test/${res.data._id}`);
+            }
+          });
+      } else {
+        let errorMessage;
+  
+        if (!this.state.username.trim() && !this.state.password.trim()) {
+          errorMessage = 'Username and password required';
+        } else if (!this.state.username) {
+          errorMessage = 'Username required';
+        } else if (!this.state.password.trim()) {
+          errorMessage = 'Password required';
+        }
+        this.setState({ formError: errorMessage });
+      }
+    }
+
   }
   onValueChange(e) {
     e.preventDefault();
