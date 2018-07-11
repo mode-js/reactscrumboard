@@ -46,14 +46,14 @@ describe('Server routes for board', () => {
     });
   });
 
-  describe('GET /boards/id?:id', () => {
+  describe('GET /boards/', () => {
     let firstBoardId;
 
     before((done) => {
       request(server)
         .get('/allboards')
         .then(({ body }) => {
-          firstBoardId = body[0].id;
+          firstBoardId = body[0].user_id;
           done();
         })
         .catch(done);
@@ -71,7 +71,7 @@ describe('Server routes for board', () => {
         .catch(done);
     });
 
-    it('should return an array of Board objects', (done) => {
+    it('should contain Board objects', (done) => {
       request(server)
         .get(`/boards/?user_id=${firstBoardId}`)
         .expect(200)
