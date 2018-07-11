@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { isLoggedIn } from '../actions/users.js';
+import { isLoggedIn, logInUser } from '../actions/users.js';
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +32,7 @@ class Form extends React.Component {
               this.setState({ formError: res.data.error });
             } else {
               this.setState({ username: '', password: '' });
-              this.props.isLoggedIn(res.data._id);
+              this.props.logInUser(true);
               this.props.history.push(`/test/${res.data._id}`);
             }
           });
@@ -61,7 +61,7 @@ class Form extends React.Component {
               this.setState({ formError: res.data.error });
             } else {
               this.setState({ username: '', password: '' });
-              this.props.isLoggedIn(res.data._id);
+              this.props.logInUser(true);
               this.props.history.push(`/test/${res.data._id}`);
             }
           });
@@ -105,8 +105,16 @@ class Form extends React.Component {
   }
 }
 
+// needed for connecting props to your component //
+const mapStateToProps = function (state, ownProps) {
+  return {
+    formRoute: ownProps.formRoute,
+  };
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    logInUser: (boolflag) => dispatch(logInUser(boolflag)),
     isLoggedIn: id => {
       dispatch(isLoggedIn(id));
     },
@@ -114,6 +122,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(Form);

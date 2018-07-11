@@ -11,6 +11,15 @@ export function getUsers() {
   };
 }
 
+export function logInUser(boolflag) {
+  return async function(dispatch, getState) {
+    return dispatch({
+      type: types.LOG_IN_USER,
+      payload: boolflag,
+    });
+  };
+}
+
 export function isLoggedIn(id) {
   return async function(dispatch, getState) {
     const users = getState().users.map(x => {
