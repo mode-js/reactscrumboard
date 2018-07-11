@@ -17,31 +17,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(publicPath));
 app.use(cookieParser())
 
-
 // USER ROUTES
 app.get('/getusers', userController.getusers);
 app.post('/signup', userController.signup);
 app.post('/login', userController.login);
+app.post('/logout', userController.logout);
 
 /// TASK ROUTES
-app.get('/tasks/id?:id', taskController.getTasks);
-app.post('/tasks', taskController.addTask);
-app.post('/updatetasks', taskController.updateTask);
-app.delete('/tasks', taskController.deleteTask);
-app.get('/alltasks', taskController.getAllTasks);
+app.get('/tasks/id?:id', userController.checkUserAuth, taskController.getTasks);
+app.post('/tasks', userController.checkUserAuth, taskController.addTask);
+app.post('/updatetasks', userController.checkUserAuth, taskController.updateTask);
+app.delete('/tasks', userController.checkUserAuth, taskController.deleteTask);
+app.get('/alltasks', userController.checkUserAuth, taskController.getAllTasks);
 
 /// STORY ROUTES
-app.get('/stories/id?:id', storyController.getStories);
-app.post('/stories', storyController.addStory);
-app.post('/updatestories', storyController.updateStory);
-app.delete('/stories', storyController.deleteStory);
-app.get('/allstories', storyController.getAllStories);
+app.get('/stories/id?:id', userController.checkUserAuth, storyController.getStories);
+app.post('/stories', userController.checkUserAuth, storyController.addStory);
+app.post('/updatestories', userController.checkUserAuth, storyController.updateStory);
+app.delete('/stories', userController.checkUserAuth, storyController.deleteStory);
+app.get('/allstories', userController.checkUserAuth, storyController.getAllStories);
 
 //BOARD ROUTES
-app.get('/boards/id?:id', boardController.getBoards);
-app.post('/boards', boardController.addBoard);
-app.delete('/boards', boardController.deleteBoard);
-app.get('/allboards', boardController.getAllBoards);
+app.get('/boards/id?:id', userController.checkUserAuth, boardController.getBoards);
+app.post('/boards', userController.checkUserAuth, boardController.addBoard);
+app.delete('/boards', userController.checkUserAuth, boardController.deleteBoard);
+app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
