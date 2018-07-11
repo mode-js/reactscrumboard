@@ -5,14 +5,24 @@ module.exports = (sequelize, DataTypes) => {
     _id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
-    description: DataTypes.TEXT
+    description: DataTypes.TEXT,
   });
+
+  Board.associate = (models) => {
+    models.Card.belongsTo(models.Card, {
+      foreignKey: {
+        allowNull: false,
+      },
+      as: 'Card',
+    })
+  }
+ 
 
   return Board;
 }

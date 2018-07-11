@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       field: 'userid',
     },
     email: {
@@ -28,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
-    // freezeTableName: true
+    username: DataTypes.STRING,
   });
 
   User.associate = (models) => {
@@ -49,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   // Alternate approach: https://stackoverflow.com/questions/31427566/sequelize-create-model-with-beforecreate-hook
-  
+
   User.methods.validPassword = (password) => {
     return bcrypt.compareSync(password, this.local.password);
   };

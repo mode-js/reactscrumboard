@@ -14,8 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.INTEGER,
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
+//https://github.com/EngineerFocus/FocusPro/blob/master/server/databases/Schema.js
+    history: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING, DataTypes.STRING)),
   });
 
   Card.associate = (models) => {
@@ -33,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
       as: 'owner'
     });
   }
+
+  
 
   return Card;
 }
