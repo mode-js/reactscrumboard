@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  withRouter,
-  Switch,
-  Route,
-  Redirect,
-  BrowserRouter as Router
-} from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 // for now it redirects to homepage
