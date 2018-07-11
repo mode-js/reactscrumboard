@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "webpack --mode development; nodemon server/server.js",
-    "node": "webpack --mode development; node server/server.js",
+    "nodemon": " nodemon server/server.js",
+    "start": "concurrently  \"webpack --mode development\" \"npm run nodemon\"",
+    "node": "; node server/server.js",
     "dev": "webpack-dev-server --mode development"
   },
   "author": "",
@@ -20,6 +21,7 @@
     "history": "^4.7.2",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.2",
+    "nodemon": "^1.18.0",
     "path": "^0.12.7",
     "pg": "^7.4.3",
     "react": "^16.4.1",
@@ -39,6 +41,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "concurrently": "^3.6.0",
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.9.1",
