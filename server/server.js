@@ -7,15 +7,15 @@ const taskController = require('./controllers/taskController');
 const boardController = require('./controllers/boardController');
 const storyController = require('./controllers/storyController');
 const userController = require('./controllers/userController');
-const app = express();
 const port = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '..', 'public', 'dist');
+const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(publicPath));
-app.use(cookieParser())
+app.use(cookieParser());
 
 // USER ROUTES
 app.get('/getusers', userController.getusers);
@@ -43,8 +43,6 @@ app.post('/boards', userController.checkUserAuth, boardController.addBoard);
 app.delete('/boards', userController.checkUserAuth, boardController.deleteBoard);
 app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
+app.get('/', () => res.sendFile(path.join(publicPath, 'index.html')) );
 
 app.listen(port, () => console.log(`server running on port ${port}`));
