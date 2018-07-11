@@ -21,7 +21,7 @@ const BoardIcon = props => {
       }}
     >
       <div>
-        <p>
+       
           <h2>Project Names</h2>
           <button
             className="button_clear--small"
@@ -32,7 +32,7 @@ const BoardIcon = props => {
           >
             X
           </button>
-        </p>
+      
         <p>{props.name}</p>
       </div>
     </div>
