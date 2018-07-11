@@ -43,6 +43,6 @@ app.post('/boards', userController.checkUserAuth, boardController.addBoard);
 app.delete('/boards', userController.checkUserAuth, boardController.deleteBoard);
 app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards);
 
-app.get('/', () => res.sendFile(path.join(publicPath, 'index.html')) );
+app.get('/', (req, res) => res.sendFile(path.join(publicPath, 'index.html')) );
 
 app.listen(port, () => console.log(`server running on port ${port}`));
