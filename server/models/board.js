@@ -15,14 +15,18 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Board.associate = (models) => {
-    models.Card.belongsTo(models.Card, {
-      foreignKey: {
-        allowNull: false,
-      },
-      as: 'Card',
-    })
-  }
- 
+    models.Board.belongsTo(models.User, {
+      foreignKey: 'owner_id',
+    });
+  },
+
+    Board.associate = (models) => {
+      models.Board.hasMany(models.Card, {
+        foreignKey: 'board_id',
+        onDelete: 'CASCADE',
+      });
+    }
+
 
   return Board;
 }

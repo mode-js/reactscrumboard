@@ -2,22 +2,22 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "database_development",
+    "database": "db_dev",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "loka",
     "password": null,
-    "database": "database_test",
+    "database": "rsb_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "db_production",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }

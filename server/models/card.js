@@ -16,27 +16,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-//https://github.com/EngineerFocus/FocusPro/blob/master/server/databases/Schema.js
+    //https://github.com/EngineerFocus/FocusPro/blob/master/server/databases/Schema.js
     history: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING, DataTypes.STRING)),
   });
 
   Card.associate = (models) => {
     models.Card.belongsTo(models.Board, {
-      foreignKey: {
-        allowNull: false
-      },
+      foreignKey: 'board_id',
       onDelete: 'CASCADE',
-      as: 'board',
     });
-    models.Card.belongsTo(models.User, {
-      foreignKey: {
-        allowNull: true
-      },
-      as: 'owner'
-    });
-  }
 
-  
+    models.Card.belongsTo(models.User, {
+      foreignKey: 'owner_id',
+    });
+
+  }
 
   return Card;
 }

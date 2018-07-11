@@ -35,6 +35,23 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      // @ FOREIGN KEY SECTION
+      board_id: {
+        type: Sequelize.INTEGER,
+        onDelete: 'SET NULL',
+        references: {
+          model: 'Board',
+          key: '_id',
+        },
+      },
+      owner_id: {
+        type: Sequelize.INTEGER,
+        onDelete: 'SET NULL',
+        references: {
+          model: 'User',
+          key: '_id',
+        },
+      },
     });
   },
 

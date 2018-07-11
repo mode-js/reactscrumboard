@@ -3,7 +3,7 @@ module.exports = {
 
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable('Users', {
-      id: {
+      _id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -14,8 +14,8 @@ module.exports = {
         unique: true,
       },
       password: {
-        type: Sequelize.STRING,
         allowNull: false,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -24,7 +24,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-      }
+      }, 
     });
   },
   down: function (queryInterface, Sequelize) {

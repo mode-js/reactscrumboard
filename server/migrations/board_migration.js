@@ -21,11 +21,20 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      // @ FOREIGN KEY SECTION
+      owner_id: {
+        type: Sequelize.INTEGER,
+        onDelete: 'SET NULL',
+        references: {
+          model: 'User',
+          key: '_id',
+        },
+      },
     });
   },
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.dropTable('Board');
   },
-  
+
 };

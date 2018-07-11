@@ -17,14 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         isEmail: true,
-        len: { args: 3 }
+        len: { args: 3 },
       },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: { args: 3 }
+        len: { args: 3 },
       },
       field: 'password',
     },
@@ -34,21 +34,25 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    models.User.belongsTo(models.Board, {
-      foreignKey: {
-        allowNull: false,
-      },
-      as: 'board',
-      onDelete: 'SET NULL'
-    })
+    models.User.hasMany(models.Board, {
+      foreignKey: 'owner_id',
+      onDelete: 'SET NULL',
+    });
+
+    models.User.hasMany(models.Card, {
+      foreignKey: 'owner_id',
+      onDelete: 'SET NULL',
+    });
   };
+
+
 
   User.beforeCreate((model, options) => {
     return new Promise((resolve, reject) => {
       model.password = bcrypt.hashSync(model.password, bcrypt.genSaltSync(8), null)
       return resolve(model, options);
     });
-  })
+  });
 
   // Alternate approach: https://stackoverflow.com/questions/31427566/sequelize-create-model-with-beforecreate-hook
 
