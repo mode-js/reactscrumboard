@@ -1,15 +1,15 @@
 const { SimpleUser, User, fetchMongoData } = require('../mongo.js');
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcrypt-nodejs");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt-nodejs");
 const SALT_WORK_FACTOR = 10;
 const JWT_SECRET = "somesecretfordeluge";
 
 const userController = {
 
-  login: (req, res) => {
+  login: (req, res) => {    
     SimpleUser.find({ name: req.body.username }, (err, resMongo) => {
         if (err) res.send(err);
-        if ( !resMongo ) return res.send({ error: 'username or password incorrect' });
+        if ( resMongo.length < 1 ) return res.status(500).send({ error: 'username or password incorrect' });
         else {
           const userData = resMongo[0];
           bcrypt.compare(req.body.password, userData.password, function(err, valid) {
@@ -32,8 +32,8 @@ const userController = {
         if (resMongo.length) {
           res.send({ error: 'user exists' });
         } else {
-          var body = req.body;
-          var hash = bcrypt.hashSync(
+          const body = req.body;
+          const hash = bcrypt.hashSync(
             body.password.trim(),
             bcrypt.genSaltSync(SALT_WORK_FACTOR)
           );
@@ -53,12 +53,31 @@ const userController = {
         res.json(resMongo);
     });
   },
+
+  checkUserAuth: (req, res, next) => {
+    const token = req.cookies.usertoken;
+    // dont trip, will delete this later
+    console.log("Token: ", token);
+    if (!token) return res.status(403).send("No user token provided.");
+    jwt.verify(token, JWT_SECRET, function(err, user) {
+      if (err) {
+        return res.status(401).json({
+          success: false,
+          message: "Please register Log in using a valid email to submit posts"
+        });
+      } else {
+        req.user = user; 
+        next();
+      }
+    });
+  },
+
 }
 
 module.exports = userController;
 
 function generateToken(user) {
-    var u = {
+    const u = {
       username: user.username,
       password: user.password,
     };

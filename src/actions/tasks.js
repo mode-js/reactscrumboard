@@ -13,6 +13,7 @@ export function addTask(name, boardId) {
 
     const response = await fetch('http://localhost:3000/tasks', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -45,7 +46,10 @@ export function getTasks(boardId) {
     const state = getState();
     const tasks = state.tasks.slice();
 
-    const response = await fetch(`http://localhost:3000/tasks/id?id=${boardId}`);
+    const response = await fetch(`http://localhost:3000/tasks/id?id=${boardId}`,{   
+      method: 'GET',
+      credentials: 'include'
+    });
     const data = await response.json();
     data.forEach(task => tasks.push(task));
 
@@ -68,6 +72,7 @@ export function updateTask(task, updates) {
 
     const response = await fetch(`http://localhost:3000/updatetasks`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -96,6 +101,7 @@ export function deleteTask(taskId) {
 
     const response = await fetch('http://localhost:3000/tasks', {
       method: 'DELETE',
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
