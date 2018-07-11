@@ -1,5 +1,4 @@
 node_modules/
-package-lock.json/
 public/dist/bundle.js
 public/dist/index.html
 

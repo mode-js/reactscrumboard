@@ -11,9 +11,9 @@ export function addBoard(name, userId) {
       userId,
       name,
     };
-
     const response = await fetch('http://localhost:3000/boards', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -36,7 +36,10 @@ export function getBoards(userId) {
     const state = getState();
     const boards = state.boards.slice();
 
-    const response = await fetch(`http://localhost:3000/boards/id?id=${userId}`);
+    const response = await fetch(`http://localhost:3000/boards/id?id=${userId}`,{
+      method: 'GET',
+      credentials: 'include'
+    });
     const data = await response.json();
 
     data.forEach(board => boards.push(board));
@@ -53,6 +56,7 @@ export function deleteBoard(boardId) {
     const boards = getState().boards.filter(board => board._id !== boardId);
     const response = await fetch('http://localhost:3000/boards', {
       method: 'DELETE',
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

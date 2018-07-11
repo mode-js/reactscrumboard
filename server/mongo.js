@@ -19,6 +19,6 @@ const fetchMongoData = function(request, response, next) {
       };
       next();
     });
-};
+}();
 
 module.exports = { SimpleUser, fetchMongoData };
