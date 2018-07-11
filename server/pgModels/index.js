@@ -1,18 +1,20 @@
-'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
-const pgURI = process.env.pgURI;
+const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
+const Board = require('./board')();
+const Card = require('./card')();
 
-const sequelize = new Sequelize(pgURI, {
-  dialect: 'postgres'
-});
+if (config.use_env_variable) {
+  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
 fs
   .readdirSync(__dirname)

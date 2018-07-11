@@ -1,4 +1,4 @@
-const Story = require('../models/story');
+const Story = require('../mongoModels/story');
 
 const storyController = {
   getAllStories: (req, res) => {

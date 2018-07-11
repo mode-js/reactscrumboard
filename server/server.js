@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const request = require('request');
 const bodyParser = require('body-parser');
 
 const controllers = require('./controllers/index.js');
@@ -10,12 +9,14 @@ const boardController = require('./controllers/boardController');
 const storyController = require('./controllers/storyController');
 
 //may need passport installed??
-
+const { Pool } = require('pg');
+const pool = new Pool({ connectionString: process.env.pgURI });
 const Sequelize = require('sequelize');
 
 const { SimpleUser, User, fetchMongoData } = require('./mongo.js');
 
 const app = express();
+require('./routes/boards')(app, pool);
 const port = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '..', 'public', 'dist');
 
@@ -23,7 +24,6 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 // USER ROUTES
 app.get('/getusers', fetchMongoData, (req, res) => {

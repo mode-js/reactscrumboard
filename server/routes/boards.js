@@ -1,27 +1,25 @@
 // middleware
-const dbController = require('../controllers/dbController');
+const boardController = require('../controllers/boardController');
 
 module.exports = (app, pool) => {
-  // define document routes here...
-
   // & All API GET requests:
   app.get('/api/boardSettings/:id',
-    dbController(pool).getBoard,
-    dbController(pool).getPermittedUsers,
+    boardController(pool).getBoard,
+    boardController(pool).getPermittedUsers,
     (req, res) => {
       res.send(res.locals.boardinfo);
     });
 
   app.get('/api/getboards',
-    dbController(pool).getBoard,
+    boardController(pool).getBoard,
     (req, res) => {
       res.send(res.locals.cards);
     });
 
   // % All API Post Requests:
   app.post('/api/createboard',
-    dbController(pool).createBoard,
-    dbController(pool).addPermittedUsers,
+    boardController(pool).createBoard,
+    boardController(pool).addPermittedUsers,
     (req, res) => {
       res.send({ board_id: res.locals.board_id });
     });
@@ -37,7 +35,7 @@ module.exports = (app, pool) => {
 
   // PUT req - save text_content and update last_updated
   app.put('/api/board/:id',
-    dbController(pool).saveBoardContent,
+    boardController(pool).saveBoardContent,
     (req, res) => {
       res.send("Board successfully saved!");
     }
