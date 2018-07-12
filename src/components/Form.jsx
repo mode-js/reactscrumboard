@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { isLoggedIn } from '../actions/users.js';
 
-class Form extends Component {
+import { isLoggedIn, logInUser } from '../actions/users.js';
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -32,13 +32,13 @@ class Form extends Component {
               this.setState({ formError: res.data.error });
             } else {
               this.setState({ username: '', password: '' });
-              this.props.isLoggedIn(res.data._id);
+              this.props.logInUser(true);
               this.props.history.push(`/test/${res.data._id}`);
             }
           });
       } else {
         let errorMessage;
-  
+
         if (!this.state.username.trim() && !this.state.password.trim()) {
           errorMessage = 'Username and password required';
         } else if (!this.state.username) {
@@ -61,13 +61,13 @@ class Form extends Component {
               this.setState({ formError: res.data.error });
             } else {
               this.setState({ username: '', password: '' });
-              this.props.isLoggedIn(res.data._id);
+              this.props.logInUser(true);
               this.props.history.push(`/test/${res.data._id}`);
             }
           });
       } else {
         let errorMessage;
-  
+
         if (!this.state.username.trim() && !this.state.password.trim()) {
           errorMessage = 'Username and password required';
         } else if (!this.state.username) {
@@ -105,8 +105,16 @@ class Form extends Component {
   }
 }
 
+// needed for connecting props to your component //
+const mapStateToProps = function (state, ownProps) {
+  return {
+    formRoute: ownProps.formRoute,
+  };
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    logInUser: (boolflag) => dispatch(logInUser(boolflag)),
     isLoggedIn: id => {
       dispatch(isLoggedIn(id));
     },
@@ -114,6 +122,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(Form);

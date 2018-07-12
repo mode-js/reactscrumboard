@@ -38,7 +38,8 @@ class Header extends Component {
 
 const mapStateToProps = ({ users }, ownProps) => {
   return {
-    user: users.filter(user => user._id === ownProps.match.params.id)[0],
+    // not sure what this is for at the moment, but its causing errors, so commenting out for now
+    // user: users.filter(user => user._id === ownProps.match.params.id)[0],
   };
 };
 
