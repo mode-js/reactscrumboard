@@ -1,5 +1,5 @@
 @import './base/base';
-@import './base/settings';
+@import './base/cards';
 //COLORS
 $light-blue: #d8f0ea;
 $bright-blue: #add9eb;
@@ -37,15 +37,35 @@ button {
 .header-info p {
   cursor: pointer;
 }
-
-.button_clear--small {
+.button_logout{
   border: none;
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
+  padding: 10px;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   display: inline-block;
   text-decoration: none;
+  background-color: darken($very-light-grey, 20%);
+  &:hover {
+    background-color: $medium-grey;
+  }
+  &:focus {
+    outline: 0;
+  }
+  &:active {
+    background-color: darken($medium-grey, 7%);
+  }  
+}
+.button_clear--small {
+  border: none;
+  font-size: 1rem;
+  border-radius: 10px;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  display: inline-block;
+  text-decoration: none;
+  align-self: flex-end;
   background-color: darken($very-light-grey, 20%);
   &:hover {
     background-color: $medium-grey;
@@ -107,4 +127,26 @@ input {
   border-radius: 5px;
   font-family: inherit;
   outline: none;
+}
+
+
+.delete_story {
+  border: none;
+  font-size: 1rem;
+  border-radius: 10px;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  display: inline-block;
+  text-decoration: none;
+  align-self: flex-end;
+  background-color: darken($very-light-grey, 20%);
+  &:hover {
+    background-color: $medium-grey;
+  }
+  &:focus {
+    outline: 0;
+  }
+  &:active {
+    background-color: darken($medium-grey, 7%);
+  }
 }

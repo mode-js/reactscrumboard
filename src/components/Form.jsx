@@ -96,7 +96,7 @@ class Form extends React.Component {
           <input type="text" placeholder="username" onChange={this.onValueChange} />
           <input type="text" placeholder="password" onChange={this.onValueChange} />
           <button className="button" onClick={this.onSubmitHandler}>
-            submit
+          <b>→</b>
           </button>
         </form>
         {this.state.formError && <p>{this.state.formError}</p>}
