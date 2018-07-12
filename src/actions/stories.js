@@ -46,7 +46,7 @@ export function getStories(boardId) {
     const state = getState();
     const stories = state.stories.slice();
 
-    const response = await fetch(`http://localhost:3000/stories/id?id=${boardId}`, {
+    const response = await fetch(`http://localhost:3000/stories?board_id=${boardId}`, {
       method: 'GET',
       credentials: 'include'
     });
@@ -92,14 +92,13 @@ export function updateStory(story, updates) {
 export function deleteStory(storyId) {
   return async function (dispatch, getState) {
     const stories = getState().stories.filter(story => story._id !== storyId);
-    const response = await fetch('http://localhost:3000/stories', {
+    const response = await fetch(`http://localhost:3000/stories?_id=${storyId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ _id: storyId }),
     });
 
     const data = await response.json();

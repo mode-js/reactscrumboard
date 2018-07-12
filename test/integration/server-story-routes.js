@@ -33,30 +33,30 @@ describe('Server routes for stories', () => {
         .catch(done);
     });
 
-    it('should return an array of story objects', (done) => {
+    it('should contain story objects', (done) => {
       request(server)
         .get('/allstories')
         .then((res) => {
-          console.log(res.body[0]);
-          expect(res.body[0]).to.be.an('Object');
-          expect(res.body[0]).to.have.property('_id');
-          expect(res.body[0]).to.have.property('name');
-          expect(res.body[0]).to.have.property('done');
-          expect(res.body[0]).to.have.property('boardId');
+          const first = res.body[0];
+          expect(first).to.be.an('Object');
+          expect(first).to.have.property('_id');
+          expect(first).to.have.property('name');
+          expect(first).to.have.property('done');
+          expect(first).to.have.property('boardId');
           done();
         })
         .catch(done);
     });
   });
 
-  describe('GET /boards/', () => {
+  describe('GET /boards?board_id=int', () => {
     let firstBoardId;
 
     before((done) => {
       request(server)
-        .get('/allboards')
+        .get('/allstories')
         .then(({ body }) => {
-          firstBoardId = body.map(el => el.userId).filter(el => el)[0];
+          [firstBoardId] = body.map(el => el.boardId).filter(el => el);
           done();
         })
         .catch(done);
@@ -64,7 +64,7 @@ describe('Server routes for stories', () => {
 
     it('should return an array', (done) => {
       request(server)
-        .get(`/boards?user_id=${firstBoardId}`)
+        .get(`/stories?board_id=${firstBoardId}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .then((res) => {
@@ -74,22 +74,25 @@ describe('Server routes for stories', () => {
         .catch(done);
     });
 
-    it('should contain Board objects', (done) => {
+    it('should contain Story objects', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
+        .get(`/stories/?board_id=${firstBoardId}`)
         .then((res) => {
-          expect(res.body[0]).to.have.property('_id');
-          expect(res.body[0]).to.have.property('name');
+          const [first] = res.body;
+          expect(first).to.have.property('_id');
+          expect(first).to.have.property('name');
+          expect(first).to.have.property('done');
+          expect(first).to.have.property('boardId');
           done();
         })
         .catch(done);
     });
 
-    it('should return only the boards belonging to that user', (done) => {
+    it('should return only the stories belonging to that board', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
+        .get(`/stories/?board_id=${firstBoardId}`)
         .then((res) => {
-          const ids = res.body.map(board => board.userId);
+          const ids = res.body.map(story => story.boardId);
           const uniq = [...new Set(ids)];
           expect(uniq).to.have.length(1);
           expect(uniq[0]).to.eq(firstBoardId);
@@ -99,16 +102,17 @@ describe('Server routes for stories', () => {
     });
   });
 
-  xdescribe('POST and DELETE /boards', () => {
+  describe('POST and DELETE /stories', () => {
     let createdId;
-    it('POST should create a new board with matching values', (done) => {
+    it('POST should create a new story with matching values', (done) => {
       request(server)
-        .post('/boards')
-        .send({ name: 'test', userId: '1' })
+        .post('/stories')
+        .send({ name: 'test', boardId: '1', done: false })
         .expect(200)
         .then(({ body }) => {
-          expect(body.userId).to.eq('1');
+          expect(body.boardId).to.eq('1');
           expect(body.name).to.eq('test');
+          expect(body.done).to.eq(false);
           expect(body).to.have.property('_id');
           createdId = body._id;
           done();
@@ -116,9 +120,9 @@ describe('Server routes for stories', () => {
         .catch(done);
     });
 
-    it('DELETE should delete a board', (done) => {
+    it('DELETE should delete a story', (done) => {
       request(server)
-        .delete(`/boards?_id=${createdId}`)
+        .delete(`/stories?_id=${createdId}`)
         .expect(200)
         .then(({ body }) => {
           expect(body.ok).to.eq(1);

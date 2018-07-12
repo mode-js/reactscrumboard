@@ -31,7 +31,7 @@ app.delete('/tasks', userController.checkUserAuth, taskController.deleteTask);
 app.get('/alltasks', userController.checkUserAuth, taskController.getAllTasks);
 
 /// STORY ROUTES
-app.get('/stories/id?:id', userController.checkUserAuth, storyController.getStories);
+app.get('/stories', userController.checkUserAuth, storyController.getStories);
 app.post('/stories', userController.checkUserAuth, storyController.addStory);
 app.post('/updatestories', userController.checkUserAuth, storyController.updateStory);
 app.delete('/stories', userController.checkUserAuth, storyController.deleteStory);

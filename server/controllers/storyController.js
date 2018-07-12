@@ -8,7 +8,8 @@ const storyController = {
   },
 
   getStories: (req, res) => {
-    Story.find({ boardId: req.query.id }, (err, stories) => {
+    console.log(req.query.board_id);
+    Story.find({ boardId: req.query.board_id }, (err, stories) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));
   },
@@ -24,7 +25,7 @@ const storyController = {
   },
 
   deleteStory: (req, res) => {
-    Story.deleteOne({ _id: req.body._id }, (err, task) => {
+    Story.deleteOne({ _id: req.query._id }, (err, task) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));
   },
