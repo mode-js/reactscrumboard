@@ -53,7 +53,7 @@ describe('Server routes for board', () => {
       request(server)
         .get('/allboards')
         .then(({ body }) => {
-          firstBoardId = body[0].user_id;
+          firstBoardId = body.map(el => el.userId).filter(el => el)[0];
           done();
         })
         .catch(done);
@@ -61,7 +61,7 @@ describe('Server routes for board', () => {
 
     it('should return an array', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
+        .get(`/boards?user_id=${firstBoardId}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .then((res) => {
@@ -74,7 +74,6 @@ describe('Server routes for board', () => {
     it('should contain Board objects', (done) => {
       request(server)
         .get(`/boards/?user_id=${firstBoardId}`)
-        .expect(200)
         .then((res) => {
           expect(res.body[0]).to.have.property('_id');
           expect(res.body[0]).to.have.property('name');
@@ -86,17 +85,18 @@ describe('Server routes for board', () => {
     it('should return only the boards belonging to that user', (done) => {
       request(server)
         .get(`/boards/?user_id=${firstBoardId}`)
-        .expect(200)
         .then((res) => {
-          const ids = res.body.map(board => board.id);
-          expect(...new Set(ids)).to.eq(ids[0]);
+          const ids = res.body.map(board => board.userId);
+          const uniq = [...new Set(ids)];
+          expect(uniq).to.have.length(1);
+          expect(uniq[0]).to.eq(firstBoardId);
           done();
         })
         .catch(done);
     });
   });
 
-  xdescribe('POST and DELETE /boards', () => {
+  describe('POST and DELETE /boards', () => {
     let createdId;
     it('POST should create a new board with matching values', (done) => {
       request(server)
@@ -115,7 +115,7 @@ describe('Server routes for board', () => {
 
     it('DELETE should delete a board', (done) => {
       request(server)
-        .delete(`/boards?board_id=${createdId}`)
+        .delete(`/boards?_id=${createdId}`)
         .expect(200)
         .then(({ body }) => {
           expect(body.ok).to.eq(1);

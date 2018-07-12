@@ -38,7 +38,7 @@ app.delete('/stories', userController.checkUserAuth, storyController.deleteStory
 app.get('/allstories', userController.checkUserAuth, storyController.getAllStories);
 
 //BOARD ROUTES
-app.get('/boards/id?:id', userController.checkUserAuth, boardController.getBoards);
+app.get('/boards', userController.checkUserAuth, boardController.getBoards);
 app.post('/boards', userController.checkUserAuth, boardController.addBoard);
 app.delete('/boards', userController.checkUserAuth, boardController.deleteBoard);
 app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards);
