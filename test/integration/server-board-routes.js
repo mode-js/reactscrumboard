@@ -8,11 +8,19 @@ const sinon = require('sinon');
 
 describe('Server routes for board', () => {
   let server;
+  let createdId;
 
   before(() => {
     const userController = require('../../server/controllers/userController');
     sinon.stub(userController, 'checkUserAuth')
-      .callsFake((req, res, next) => next());
+      .callsFake((req, res, next) => {
+        req.user = {
+          _id: 1,
+          username: 'test',
+          password: 'whatever',
+        };
+        next();
+      });
     server = require('../../server/server.js').server;
   });
 
@@ -40,22 +48,27 @@ describe('Server routes for board', () => {
     });
   });
 
-  describe('GET /boards?user_id=string', () => {
-    let firstUserId;
-
-    before((done) => {
+  describe('POST /boards', () => {
+    it('should create a new board with matching values', (done) => {
       request(server)
-        .get('/allboards')
+        .post('/boards')
+        .send({ name: 'test' })
+        .expect(200)
         .then(({ body }) => {
-          [firstUserId] = body.map(el => el.userId).filter(el => el);
+          // expect(body.owner_id).to.eq(1);
+          expect(body.name).to.eq('test');
+          expect(body).to.have.property('_id');
+          createdId = body._id;
           done();
         })
         .catch(done);
     });
+  });
 
+  describe('GET /boards', () => {
     it('should return an array', (done) => {
       request(server)
-        .get(`/boards?user_id=${firstUserId}`)
+        .get('/boards')
         .expect(200)
         .expect('Content-Type', /json/)
         .then((res) => {
@@ -67,7 +80,7 @@ describe('Server routes for board', () => {
 
     it('should contain Board objects', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstUserId}`)
+        .get('/boards')
         .then((res) => {
           expect(res.body[0]).to.have.property('_id');
           expect(res.body[0]).to.have.property('name');
@@ -78,36 +91,20 @@ describe('Server routes for board', () => {
 
     it('should return only the boards belonging to that user', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstUserId}`)
+        .get('/boards')
         .then((res) => {
           const ids = res.body.map(board => board.userId);
           const uniq = [...new Set(ids)];
           expect(uniq).to.have.length(1);
-          expect(uniq[0]).to.eq(firstUserId);
+          expect(uniq[0]).to.eq('1');
           done();
         })
         .catch(done);
     });
   });
 
-  describe('POST and DELETE /boards', () => {
-    let createdId;
-    it('POST should create a new board with matching values', (done) => {
-      request(server)
-        .post('/boards')
-        .send({ name: 'test', userId: '1' })
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.userId).to.eq('1');
-          expect(body.name).to.eq('test');
-          expect(body).to.have.property('_id');
-          createdId = body._id;
-          done();
-        })
-        .catch(done);
-    });
-
-    it('DELETE should delete a board', (done) => {
+  describe('DELETE /boards', () => {
+    it('should delete a board', (done) => {
       request(server)
         .delete(`/boards?_id=${createdId}`)
         .expect(200)
