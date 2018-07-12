@@ -2,13 +2,13 @@ const Board = require('../mongoModels/board');
 
 const boardController = {
   getBoards: (req, res) => {
-    Board.find({ userId: req.query.id }, (err, tasks) => {
+    Board.find({ userId: req.query.user_id }, (err, tasks) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));
   },
 
   deleteBoard: (req, res) => {
-    Board.deleteOne({ _id: req.body._id }, (err, task) => {
+    Board.deleteOne({ _id: req.query._id }, (err, task) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));
   },

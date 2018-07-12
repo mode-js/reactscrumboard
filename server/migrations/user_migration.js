@@ -8,14 +8,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      email: {
+      username: {
         type: Sequelize.STRING,
         unique: true,
+        allowNull: false,
+        validate: { len: [3, 50] },
       },
       password: {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      first_name: Sequelize.STRING,
+      last_name: Sequelize.STRING,
+      email: Sequelize.STRING,
       createdAt: {
         allowNull: false,
         type: SEquelize.DATE,
@@ -24,6 +29,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+
     });
   },
   down: function (queryInterface, Sequelize) {
