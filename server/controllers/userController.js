@@ -2,6 +2,7 @@ const { User } = require('../models');
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt-nodejs");
+const SALT_WORK_FACTOR = 10;
 const JWT_SECRET = process.env.JWT_SECRET || "somesecretfordeluge";
 
 const userController = {
@@ -17,7 +18,7 @@ const userController = {
           return res.status(400).send('Error, this user exists');
         }
         else {
-          const hash = bcrypt.hashSync(password, 10);
+          const hash = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR));
           User.create({ username, password: hash, })
             .then(
               (newUser) => {
