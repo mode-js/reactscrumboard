@@ -5,16 +5,16 @@
 const { expect } = require('chai');
 const request = require('supertest');
 const sinon = require('sinon');
-const mongoose = require('mongoose');
 
 describe('Server routes for board', () => {
   let server;
 
   before(() => {
+    console.log('hello!');
     const userController = require('../../server/controllers/userController');
     sinon.stub(userController, 'checkUserAuth')
       .callsFake((req, res, next) => next());
-    server = require('../../server/server.js');
+    server = require('../../server/server.js').server;
   });
 
   describe('GET /allboards', () => {

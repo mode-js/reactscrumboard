@@ -10,14 +10,18 @@ const mongoose = require('mongoose');
 
 describe('Server routes for stories', () => {
   let server;
+  let sequelize;
 
   before(() => {
-    server = require('../../server/server.js');
+    const serverAndDb = require('../../server/server.js');
+    server = serverAndDb.server;
+    sequelize = serverAndDb.sequelize;
   });
 
   after((done) => {
     server.close();
     mongoose.connection.close(done);
+    sequelize.close();
   });
 
   describe('GET /allstories', () => {
