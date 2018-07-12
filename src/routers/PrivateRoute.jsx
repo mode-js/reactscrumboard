@@ -1,21 +1,22 @@
-// NOTE ************
-//these aren't being used, but they should work if you hook them up. we just didn't have time.
-//the 'isAuthenticated' variable is mislabeled. It should be based off of the user's id in the first param in react router
-//and whether that user is logged into the database
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-// import React, { Component } from 'react';
-// import { Route, Redirect } from 'react-router-dom';
-// import { connect } from 'react-redux';
+// for now it redirects to homepage
+class PrivateRoute extends React.Component {
+  render() {
+    const { component: Component, ...rest } = this.props;
+    return (<Route {...rest} render={props => { 
+      return this.props.isUserLoggedIn ? 
+        (<Component {...props} />) : (<Redirect to={{pathname: "/"}}/>);
+    }}/>);
+  }
+}
 
-// const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
-//   <Route
-//     {...rest}
-//     component={props => (isAuthenticated ? <Component {...props} /> : <Redirect to="/" />)}
-//   />
-// );
+const mapStateToProps = store => {
+  return {
+    isUserLoggedIn: store.users.isUserLoggedIn
+  };
+};
 
-// const mapStateToProps = state => ({
-//   isAuthenticated: false,
-// });
-
-// export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps)(PrivateRoute);

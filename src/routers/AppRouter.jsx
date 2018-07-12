@@ -9,8 +9,8 @@ import LoginPage from '../components/LoginPage.jsx';
 import SignupPage from '../components/SignupPage.jsx';
 import DashboardPage from '../components/DashboardPage.jsx';
 import NotFoundPage from '../components/NotFoundPage.jsx';
-
 import Board from '../components/Board.jsx';
+import PrivateRoute from '../routers/PrivateRoute.jsx';
 
 const history = createHistory();
 export default class AppRouter extends Component {
@@ -21,8 +21,8 @@ export default class AppRouter extends Component {
           <Switch>
             <Route exact path="/" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
-            <Route exact path="/test/:id" component={DashboardPage} />
-            <Route exact path="/test/:id/:board" component={Board} />
+            <PrivateRoute exact path="/test/:id" component={DashboardPage} />
+            <PrivateRoute exact path="/test/:id/:board" component={Board} />
             <Route exact path="*" component={NotFoundPage} />
           </Switch>
         </div>
