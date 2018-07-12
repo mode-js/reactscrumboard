@@ -1,5 +1,7 @@
 import * as types from '../constants/actionTypes.js';
 
+//need to use Axios throughout entire project to clean up API calls
+
 export function addBoard(name, userId) {
   return async function (dispatch, getState) {
     const state = getState();

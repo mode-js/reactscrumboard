@@ -1,4 +1,4 @@
-const Task = require('../models/task');
+const Task = require('../mongoModels/task');
 
 const taskController = {
 

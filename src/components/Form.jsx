@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -38,7 +38,7 @@ class Form extends React.Component {
           });
       } else {
         let errorMessage;
-  
+
         if (!this.state.username.trim() && !this.state.password.trim()) {
           errorMessage = 'Username and password required';
         } else if (!this.state.username) {
@@ -67,7 +67,7 @@ class Form extends React.Component {
           });
       } else {
         let errorMessage;
-  
+
         if (!this.state.username.trim() && !this.state.password.trim()) {
           errorMessage = 'Username and password required';
         } else if (!this.state.username) {
