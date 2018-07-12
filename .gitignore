@@ -1,6 +1,7 @@
 node_modules/
 public/dist/bundle.js
 public/dist/index.html
+.vscode/
 
 data/db/
 .DS_Store
