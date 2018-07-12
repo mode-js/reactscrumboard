@@ -14,12 +14,19 @@
   }
   .project_name{
     align-self: center;
+    display: block;
+
   }
   .simple_box{
     border: 1px solid gray;
     margin: 2px;
     display: inline-block;
     border-radius: 4px;
+    padding-left: 10px; 
+    padding-right: 10px; 
+    margin-right: 10px;
+    margin-top: 10px;
+
   }
   &-icon {
     display: flex;
@@ -32,10 +39,11 @@
   }
   &-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 100px;
+    flex-wrap: wrap;
   }
   &-forms {
     display: flex;
@@ -108,7 +116,7 @@ body {
 }
 
 .delete{
-  float: right; 
+  // float: right; 
   padding-top: 1px;
   padding-block-end: 1px;
   padding-left: 3px;

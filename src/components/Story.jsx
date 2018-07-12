@@ -18,11 +18,10 @@ const Task = props => {
   const order = ['todo', 'inProgress', 'testing', 'done'];
   return (
     <div   className="taskbox stories">
-         <button
-          className="delete button_clear--small"
-          onClick={() => this.props.deleteTask(this.props.task._id)}
-        >
-          X
+         <button className="delete button_clear--small"
+        onClick={() => props.deleteTask(props.task._id)}
+      >
+        X
         </button>
         <p>{props.name} </p>
 

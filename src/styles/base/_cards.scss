@@ -1,11 +1,8 @@
-
 .taskbox {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     height: 250px;
-    width: 97%;
     // background: #fff;
     border-radius: 2px;
-    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,22 +11,24 @@
     margin: 7px; 
     word-wrap: break-word; 
     justify-content: space-between;
-
 //   margin: 1rem;
 }
 
 .tasks{
     background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(252,185,61,0.2) 0%, rgba(252,185,61,0.2) 21.7%, rgba(252,185,61,0.2) 31.8%, rgba(254,249,139,0.3) 91.2% );
-
+    width: 97%;
+    height: 200px;
 }
 .stories{
     background-image: radial-gradient( circle farthest-corner at 10% 20%, rgba(253,76,186,.5) 0%, rgba(246,72,72,.5) 90% );
-
+    width: 97%;
+    height: 200px;
 }
 
 .projects{
     background-image: linear-gradient( 68.2deg,  rgba(7,200,129,0.4) 31.1%, rgba(7,200,129,0.2) 100.2% );
-
+    width: 200px;
+    height: 200px;
 }
 
 
@@ -49,3 +48,6 @@
   .draggable {
   }
   
+  .board_list_padding{
+      padding-top:100px;
+  }

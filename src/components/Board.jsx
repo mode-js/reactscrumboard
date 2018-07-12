@@ -106,6 +106,7 @@ class Board extends React.Component {
             <h4 className="project_name">Project Name: {this.props.match.params.board}</h4>
 
               <form onSubmit={this.handleSubmit}>
+
                 <input
                   type="text"
                   placeholder="Task Name"
