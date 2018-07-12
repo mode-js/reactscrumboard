@@ -11,6 +11,10 @@ const port = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '..', 'public', 'dist');
 const app = express();
 
+const db = require('./models');
+
+
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,4 +49,8 @@ app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards
 
 app.get('/', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 
-app.listen(port, () => console.log(`server running on port ${port}`));
+db.sequelize.sync().then(function () {
+  app.listen(port, () => {
+    console.log(`server running on port ${port}`);
+  });
+}).catch((err) => console.error(err));

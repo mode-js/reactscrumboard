@@ -7,12 +7,18 @@ const basename = path.basename(__filename);
 require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 const pgURI = process.env.pgURI;
+const config = require('../config/config.js')[env];
 const db = {};
 
-
-const sequelize = new Sequelize(pgURI, {
-  dialect: 'postgres'
-});
+let sequelize;
+if (env === 'development') {
+  sequelize = new Sequelize(pgURI, {
+    dialect: 'postgres'
+  });
+}
+else {
+  sequelize = new Sequelize(config);
+}
 
 fs
   .readdirSync(__dirname)

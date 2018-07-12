@@ -7,9 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      field: 'userid',
     },
     email: {
       type: DataTypes.STRING,
@@ -43,9 +40,23 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'owner_id',
       onDelete: 'SET NULL',
     });
+
+
+
+
   };
 
+  User.validPassword = (password) => {
+    return bcrypt.compareSync(password, this.local.password);
+  };
 
+  User.beforeUpdate(function (user, options, callback) {
+    user.email = user.email.toLowerCase();
+    if (user.password)
+      hasSecurePassword(user, options, callback);
+    else
+      return callback(null, options);
+  });
 
   User.beforeCreate((model, options) => {
     return new Promise((resolve, reject) => {
@@ -56,9 +67,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Alternate approach: https://stackoverflow.com/questions/31427566/sequelize-create-model-with-beforecreate-hook
 
-  User.methods.validPassword = (password) => {
-    return bcrypt.compareSync(password, this.local.password);
-  };
+
 
   return User;
 }
