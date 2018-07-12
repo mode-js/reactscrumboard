@@ -32,7 +32,7 @@ class Task extends React.Component {
               this.props.updateTask(this.props.task, { status: newStatus });
             }}
           >
-            Back
+            ←
           </span>
           <span
             onClick={() => {
@@ -45,7 +45,7 @@ class Task extends React.Component {
               this.props.updateTask(this.props.task, { status: newStatus });
             }}
           >
-            Next
+            →
           </span>
         </div>
       </div>
