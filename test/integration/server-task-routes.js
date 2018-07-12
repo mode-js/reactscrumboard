@@ -44,7 +44,7 @@ describe('Server routes for tasks', () => {
     });
   });
 
-  describe('GET /tasks?board_id=int', () => {
+  describe('GET /tasks?board_id=string', () => {
     let firstBoardId;
 
     before((done) => {
@@ -96,7 +96,7 @@ describe('Server routes for tasks', () => {
     });
   });
 
-  describe('POST and DELETE /tasks', () => {
+  describe('POST, UPDATE, and DELETE /tasks', () => {
     let createdId;
     it('POST should create a new task with matching values', (done) => {
       request(server)
@@ -109,6 +109,26 @@ describe('Server routes for tasks', () => {
           expect(body.status).to.eq('todo');
           expect(body).to.have.property('_id');
           createdId = body._id;
+          done();
+        })
+        .catch(done);
+    });
+
+    it('UPDATE should change an existing task', (done) => {
+      request(server)
+        .post('/updatetasks')
+        .send({ _id: createdId, status: 'other' })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.status).to.eq('other');
+        })
+        .catch(console.error);
+
+      request(server)
+        .get(`/tasks?board_id=${1}`)
+        .then(({ body }) => {
+          const [task] = body.filter(record => record._id === createdId);
+          expect(task.status).to.eq('other');
           done();
         })
         .catch(done);

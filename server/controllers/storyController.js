@@ -8,7 +8,6 @@ const storyController = {
   },
 
   getStories: (req, res) => {
-    console.log(req.query.board_id);
     Story.find({ boardId: req.query.board_id }, (err, stories) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));

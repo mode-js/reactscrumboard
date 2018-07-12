@@ -10,7 +10,6 @@ describe('Server routes for board', () => {
   let server;
 
   before(() => {
-    console.log('hello!');
     const userController = require('../../server/controllers/userController');
     sinon.stub(userController, 'checkUserAuth')
       .callsFake((req, res, next) => next());
@@ -41,14 +40,14 @@ describe('Server routes for board', () => {
     });
   });
 
-  describe('GET /boards/', () => {
-    let firstBoardId;
+  describe('GET /boards?user_id=string', () => {
+    let firstUserId;
 
     before((done) => {
       request(server)
         .get('/allboards')
         .then(({ body }) => {
-          firstBoardId = body.map(el => el.userId).filter(el => el)[0];
+          [firstUserId] = body.map(el => el.userId).filter(el => el);
           done();
         })
         .catch(done);
@@ -56,7 +55,7 @@ describe('Server routes for board', () => {
 
     it('should return an array', (done) => {
       request(server)
-        .get(`/boards?user_id=${firstBoardId}`)
+        .get(`/boards?user_id=${firstUserId}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .then((res) => {
@@ -68,7 +67,7 @@ describe('Server routes for board', () => {
 
     it('should contain Board objects', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
+        .get(`/boards/?user_id=${firstUserId}`)
         .then((res) => {
           expect(res.body[0]).to.have.property('_id');
           expect(res.body[0]).to.have.property('name');
@@ -79,12 +78,12 @@ describe('Server routes for board', () => {
 
     it('should return only the boards belonging to that user', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
+        .get(`/boards/?user_id=${firstUserId}`)
         .then((res) => {
           const ids = res.body.map(board => board.userId);
           const uniq = [...new Set(ids)];
           expect(uniq).to.have.length(1);
-          expect(uniq[0]).to.eq(firstBoardId);
+          expect(uniq[0]).to.eq(firstUserId);
           done();
         })
         .catch(done);

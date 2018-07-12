@@ -53,7 +53,7 @@ describe('Server routes for stories', () => {
     });
   });
 
-  describe('GET /boards?board_id=int', () => {
+  describe('GET /stories?board_id=string', () => {
     let firstBoardId;
 
     before((done) => {
@@ -106,7 +106,7 @@ describe('Server routes for stories', () => {
     });
   });
 
-  describe('POST and DELETE /stories', () => {
+  describe('POST, UPDATE, and DELETE /stories', () => {
     let createdId;
     it('POST should create a new story with matching values', (done) => {
       request(server)
@@ -119,6 +119,26 @@ describe('Server routes for stories', () => {
           expect(body.done).to.eq(false);
           expect(body).to.have.property('_id');
           createdId = body._id;
+          done();
+        })
+        .catch(done);
+    });
+
+    it('UPDATE should change an existing story', (done) => {
+      request(server)
+        .post('/updatestories')
+        .send({ _id: createdId, done: true })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.done).to.eq(true);
+        })
+        .catch(console.error);
+
+      request(server)
+        .get(`/stories?board_id=${1}`)
+        .then(({ body }) => {
+          const [story] = body.filter(record => record._id === createdId);
+          expect(story.done).to.eq(true);
           done();
         })
         .catch(done);
