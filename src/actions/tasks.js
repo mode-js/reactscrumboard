@@ -46,7 +46,7 @@ export function getTasks(boardId) {
     const state = getState();
     const tasks = state.tasks.slice();
 
-    const response = await fetch(`http://localhost:3000/tasks/id?id=${boardId}`,{   
+    const response = await fetch(`http://localhost:3000/tasks/?board_id=${boardId}`,{
       method: 'GET',
       credentials: 'include'
     });
@@ -99,14 +99,13 @@ export function deleteTask(taskId) {
     const tasks = getState().tasks.filter(task => task._id !== taskId);
 
 
-    const response = await fetch('http://localhost:3000/tasks', {
+    const response = await fetch(`http://localhost:3000/tasks?_id=${taskId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ _id: taskId }),
     });
 
     const data = await response.json();

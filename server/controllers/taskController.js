@@ -9,13 +9,13 @@ const taskController = {
   },
 
   deleteTask: (req, res) => {
-    Task.deleteOne({ _id: req.body._id }, (err, task) => {
+    Task.deleteOne({ _id: req.query._id }, (err, task) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));
   },
 
   getTasks: (req, res) => {
-    Task.find({ boardId: req.query.id }, (err, tasks) => {
+    Task.find({ boardId: req.query.board_id }, (err, tasks) => {
       if (err) return console.error(err);
     }).then(result => res.json(result));
   },

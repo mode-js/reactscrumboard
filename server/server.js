@@ -28,7 +28,7 @@ app.post('/login', userController.login);
 app.post('/logout', userController.logout);
 
 // TASK ROUTES
-app.get('/tasks/id?:id', userController.checkUserAuth, taskController.getTasks);
+app.get('/tasks', userController.checkUserAuth, taskController.getTasks);
 app.post('/tasks', userController.checkUserAuth, taskController.addTask);
 app.post('/updatetasks', userController.checkUserAuth, taskController.updateTask);
 app.delete('/tasks', userController.checkUserAuth, taskController.deleteTask);
