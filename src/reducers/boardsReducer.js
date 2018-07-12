@@ -9,6 +9,7 @@ export default (state = [], action) => {
     case types.GET_BOARDS:
       boards = action.boards;
       return boards;
+    //looks duplicative
     case types.GET_BOARDS:
       boards = action.boards;
       return boards;

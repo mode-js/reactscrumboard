@@ -1,4 +1,4 @@
-const Board = require('../models/board');
+const Board = require('../mongoModels/board');
 
 const boardController = {
   getBoards: (req, res) => {
