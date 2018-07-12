@@ -1,6 +1,5 @@
 
 .board {
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,7 +55,16 @@
 
 .login-page {
   text-align: center;
-}
+  flex-direction: column;
+
+  background-repeat: no repeat;
+        background-size: cover;
+        height: 100vh;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: radial-gradient( circle farthest-corner at -4% -12.9%,  rgba(74,98,110,1) 0.3%, rgba(30,33,48,1) 90.2% );}
 
 
 .dashboard-page {
@@ -67,7 +75,7 @@
 body {
   font-family: 'Quicksand', sans-serif;
   background: white;
-  margin: -10px;
+  margin: 0px;
 }
 
 .movers {
@@ -78,11 +86,11 @@ body {
 .header{
   display: flex;
   justify-content: space-between;
-  background-color: #3c70ad;
-  position: fixed; /* Set the navbar to fixed position */
+  background-image: radial-gradient( circle farthest-corner at -4% -12.9%,  rgba(74,98,110,1) 0.3%, rgba(30,33,48,1) 90.2% );  position: fixed; /* Set the navbar to fixed position */
   top: 0; /* Position the navbar at the top of the page */
   width: 100%; /* Full width */
   color: white;
+  z-index: 200;
   margin-bottom: 20px;
   &-info {
     display: flex;
@@ -125,5 +133,22 @@ body {
 }
 
 .logo {
-  font-size: -webkit-xxx-large;
+}
+
+
+.login-container {
+  background-color: rgba(255,255,255,0.9);
+  padding: 40px 40px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 65px;
+  box-shadow: 5px 10px #33cccc;
+  flex-direction: column;
+}
+
+.small-logo{
+  height: 80px;
+
 }

@@ -36,7 +36,7 @@ export function getBoards(userId) {
     const state = getState();
     const boards = state.boards.slice();
 
-    const response = await fetch(`http://localhost:3000/boards/id?id=${userId}`,{
+    const response = await fetch(`http://localhost:3000/boards?user_id=${userId}`,{
       method: 'GET',
       credentials: 'include'
     });
@@ -54,14 +54,13 @@ export function getBoards(userId) {
 export function deleteBoard(boardId) {
   return async function (dispatch, getState) {
     const boards = getState().boards.filter(board => board._id !== boardId);
-    const response = await fetch('http://localhost:3000/boards', {
+    const response = await fetch(`http://localhost:3000/boards?_id=${boardId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ _id: boardId }),
     });
 
     return dispatch({
