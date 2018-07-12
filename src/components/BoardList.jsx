@@ -27,8 +27,8 @@ class BoardList extends React.Component {
     ));
 
     return (
-      <div className='board-list'>
-        <div>
+      <div >
+        <div className="board_list_padding">
           <h4>Welcome To Your Board List!</h4>
           <form onSubmit={this.handleSubmit}>
             <input
@@ -47,7 +47,10 @@ class BoardList extends React.Component {
           </button>
           </form>
           <FlipMove duration={400} easing="ease-in-out">
+          <div className='board-list'>
+
             {Boards}
+            </div>
           </FlipMove>
         </div>
       </div>
