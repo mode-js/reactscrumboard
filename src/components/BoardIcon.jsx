@@ -9,11 +9,10 @@ const BoardIcon = props => {
   let clickedButton = false;
   return (
     <div
-      className="board-icon"
+      className="taskbox"
       style={{
-        border: '2.5px solid black',
-        height: '20%',
-        width: '50%',
+        height: '200px',
+        width: '200px',
         padding: '4px 4px',
       }}
       onClick={() => {
@@ -21,8 +20,8 @@ const BoardIcon = props => {
       }}
     >
       <div>
-       
-          <h2>Project Names</h2>
+      
+        <p className="project_name">{props.name}</p>
           <button
             className="button_clear--small"
             onClick={() => {
@@ -33,7 +32,7 @@ const BoardIcon = props => {
             X
           </button>
       
-        <p>{props.name}</p>
+       
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const LoginPage = props => (
   <div className="login-page">
-    <h1 className="login-title">Welcome to Scrum-Didilyumptious!</h1>
+    <h1 className="login-title">Welcome to Scrum Board!</h1>
     <Form formRoute={'/login'} history={props.history} />
     <p>
       Need an account? Sign up{' '}

@@ -29,21 +29,21 @@ class BoardList extends React.Component {
     return (
       <div className='board-list'>
         <div>
-          <h1>Welcome To Your Board List!</h1>
+          <h4>Welcome To Your Board List!</h4>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
-              placeholder="project name"
+              placeholder="Add a new project..."
               onChange={this.handleChange}
               value={this.state.value}
             />
-            <button
+            <button className="delete"
               onClick={e => {
                 e.preventDefault();
                 this.props.addBoard(this.state.value, this.props.userID);
               }}
             >
-              Add New Project
+              +
           </button>
           </form>
           <FlipMove duration={400} easing="ease-in-out">

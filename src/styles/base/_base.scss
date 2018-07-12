@@ -1,31 +1,42 @@
+
 .board {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
   
   &-rows {
     display: flex;
     justify-content: center;
     text-align: center;
-    border: 4px solid black;
-    width: 950px; 
+    // width: 950px; 
     
+  }
+  .project_name{
+    align-self: center;
+  }
+  .simple_box{
+    border: 1px solid gray;
+    margin: 2px;
+    display: inline-block;
+    border-radius: 4px;
   }
   &-icon {
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
-    border: 20px solid black; 
-    margin: 0; 
+    border: 10px solid gray; 
+    border-radius: 5px;
+    margin: 5px; 
   }
   &-list {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 100px;
   }
   &-forms {
     display: flex;
@@ -35,9 +46,12 @@
 }
 
 .row {
-  width: 15%; 
-  margin-right: 20px;
+  width: 19%; 
+  padding: 5px;
   word-wrap: break-word; 
+  border-left: .02em solid lightgrey; 
+  border-right: .02em solid lightgrey;
+
 }
 
 .login-page {
@@ -51,7 +65,9 @@
 }
 
 body {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Quicksand', sans-serif;
+  background: white;
+  margin: -10px;
 }
 
 .movers {
@@ -62,11 +78,17 @@ body {
 .header{
   display: flex;
   justify-content: space-between;
-
+  background-color: #3c70ad;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  color: white;
+  margin-bottom: 20px;
   &-info {
     display: flex;
     justify-content: center; 
   }
+
 }
 
 .task-status{
@@ -83,4 +105,25 @@ body {
   padding-block-end: 1px;
   padding-left: 3px;
   padding-right: 3px;
+}
+
+.float_left{
+  float: left; 
+  padding-top: 1px;
+  padding-block-end: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+
+.column_header {
+  border-bottom: solid 0.2em #3c70ad;
+  // display: inline;
+  padding-bottom: 4px;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.logo {
+  font-size: -webkit-xxx-large;
 }
