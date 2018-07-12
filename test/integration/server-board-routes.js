@@ -5,21 +5,15 @@
 const { expect } = require('chai');
 const request = require('supertest');
 const sinon = require('sinon');
-const mongoose = require('mongoose');
 
 describe('Server routes for board', () => {
   let server;
 
   before(() => {
-    const userController = require('../server/controllers/userController');
+    const userController = require('../../server/controllers/userController');
     sinon.stub(userController, 'checkUserAuth')
       .callsFake((req, res, next) => next());
-    server = require('../server/server.js');
-  });
-
-  after((done) => {
-    server.close();
-    mongoose.connection.close(done);
+    server = require('../../server/server.js').server;
   });
 
   describe('GET /allboards', () => {
@@ -46,14 +40,14 @@ describe('Server routes for board', () => {
     });
   });
 
-  describe('GET /boards/', () => {
-    let firstBoardId;
+  describe('GET /boards?user_id=string', () => {
+    let firstUserId;
 
     before((done) => {
       request(server)
         .get('/allboards')
         .then(({ body }) => {
-          firstBoardId = body[0].user_id;
+          [firstUserId] = body.map(el => el.userId).filter(el => el);
           done();
         })
         .catch(done);
@@ -61,7 +55,7 @@ describe('Server routes for board', () => {
 
     it('should return an array', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
+        .get(`/boards?user_id=${firstUserId}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .then((res) => {
@@ -73,8 +67,7 @@ describe('Server routes for board', () => {
 
     it('should contain Board objects', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
-        .expect(200)
+        .get(`/boards/?user_id=${firstUserId}`)
         .then((res) => {
           expect(res.body[0]).to.have.property('_id');
           expect(res.body[0]).to.have.property('name');
@@ -85,18 +78,19 @@ describe('Server routes for board', () => {
 
     it('should return only the boards belonging to that user', (done) => {
       request(server)
-        .get(`/boards/?user_id=${firstBoardId}`)
-        .expect(200)
+        .get(`/boards/?user_id=${firstUserId}`)
         .then((res) => {
-          const ids = res.body.map(board => board.id);
-          expect(...new Set(ids)).to.eq(ids[0]);
+          const ids = res.body.map(board => board.userId);
+          const uniq = [...new Set(ids)];
+          expect(uniq).to.have.length(1);
+          expect(uniq[0]).to.eq(firstUserId);
           done();
         })
         .catch(done);
     });
   });
 
-  xdescribe('POST and DELETE /boards', () => {
+  describe('POST and DELETE /boards', () => {
     let createdId;
     it('POST should create a new board with matching values', (done) => {
       request(server)
@@ -115,7 +109,7 @@ describe('Server routes for board', () => {
 
     it('DELETE should delete a board', (done) => {
       request(server)
-        .delete(`/boards?board_id=${createdId}`)
+        .delete(`/boards?_id=${createdId}`)
         .expect(200)
         .then(({ body }) => {
           expect(body.ok).to.eq(1);
