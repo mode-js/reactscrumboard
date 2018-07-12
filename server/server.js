@@ -47,7 +47,7 @@ app.get('/allboards', userController.checkUserAuth, boardController.getAllBoards
 
 app.get('/', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 
-db.sequelize.sync().then(function () {
+db.sequelize.sync({ force: true }).then(function () {
   app.listen(port, () => {
     console.log(`server running on port ${port}`);
   });

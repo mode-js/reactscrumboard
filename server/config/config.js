@@ -1,9 +1,9 @@
 module.exports = {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "db_dev",
-    "host": "127.0.0.1",
+    "username": "bhplmtwm",
+    "password": "KdjVSSfSTLaIpVzVs5U-Ro1kj-7tKtjL",
+    "database": "bhplmtwn",
+    "host": "pellefant.db.elephantsql.com",
     "dialect": "postgres",
   },
   "test": {
