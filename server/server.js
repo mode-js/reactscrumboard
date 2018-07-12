@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const taskController = require('./controllers/taskController');
 const boardController = require('./controllers/boardController');
 const storyController = require('./controllers/storyController');
@@ -12,8 +12,6 @@ const publicPath = path.join(__dirname, '..', 'public', 'dist');
 const app = express();
 
 const db = require('./models');
-
-
 
 app.use(cors());
 app.use(bodyParser.json());
