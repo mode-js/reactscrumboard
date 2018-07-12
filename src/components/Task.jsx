@@ -13,13 +13,7 @@ class Task extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          border: '2.5px solid black',
-          margin: '2px 2px 2px',
-          padding: '4px 4px 4px',
-        }}
-      >
+      <div className="taskbox">
         <button
           className="delete button_clear--small"
           onClick={() => this.props.deleteTask(this.props.task._id)}

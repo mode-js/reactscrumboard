@@ -3,7 +3,7 @@ import React from 'react';
 const RowHeader = props => {
   return (
     <div>
-      <h1>{props.columnHeader}</h1>
+      <p className="column_header">{props.columnHeader}</p>
     </div>
   );
 };
