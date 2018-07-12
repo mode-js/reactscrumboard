@@ -8,31 +8,23 @@ import { deleteBoard } from '../actions/boards.js';
 const BoardIcon = props => {
   let clickedButton = false;
   return (
-    <div
-      className="taskbox"
-      style={{
-        height: '200px',
-        width: '200px',
-        padding: '4px 4px',
-      }}
-      onClick={() => {
-        if (!clickedButton) props.history.push(`/test/${props.boardId}/${props.name}`);
-      }}
-    >
-      <div>
+    <div  className="taskbox projects" onClick={() => {
+      if (!clickedButton) props.history.push(`/test/${props.boardId}/${props.name}`);
+    }}>
+      <button
+        className="delete button_clear--small"
+onClick={() => {
+            clickedButton = true;
+            props.deleteBoard(props.boardId);
+          }}        >
+        X
+      </button>
+
+      <p>{props.name} </p>
+
+      <div className="task-status">
+        <span>Owner</span>
       
-        <p className="project_name">{props.name}</p>
-          <button
-            className="button_clear--small"
-            onClick={() => {
-              clickedButton = true;
-              props.deleteBoard(props.boardId);
-            }}
-          >
-            X
-          </button>
-      
-       
       </div>
     </div>
   );

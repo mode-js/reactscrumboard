@@ -12,7 +12,10 @@ class Header extends React.Component {
     console.log('from header', this.props);
     return (
       <div className="header">
-        <div className="logo">[  D E L U G E  ]</div>
+        <div className="logo"> 
+        <img  className="small-logo" src="http://localhost:3000/logo.png"/>
+
+        </div>
         <div className="header-info">
           <div />
           <div
