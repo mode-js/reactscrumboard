@@ -11,15 +11,10 @@ describe('Server routes for board', () => {
   let server;
 
   before(() => {
-    const userController = require('../server/controllers/userController');
+    const userController = require('../../server/controllers/userController');
     sinon.stub(userController, 'checkUserAuth')
       .callsFake((req, res, next) => next());
-    server = require('../server/server.js');
-  });
-
-  after((done) => {
-    server.close();
-    mongoose.connection.close(done);
+    server = require('../../server/server.js');
   });
 
   describe('GET /allboards', () => {
