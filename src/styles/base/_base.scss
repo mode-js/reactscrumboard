@@ -1,6 +1,5 @@
 
 .board {
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,6 +55,8 @@
 
 .login-page {
   text-align: center;
+  flex-direction: column;
+
   background-repeat: no repeat;
         background-size: cover;
         height: 100vh;
@@ -74,7 +75,7 @@
 body {
   font-family: 'Quicksand', sans-serif;
   background: white;
-  margin: -10px;
+  margin: 0px;
 }
 
 .movers {
@@ -89,6 +90,7 @@ body {
   top: 0; /* Position the navbar at the top of the page */
   width: 100%; /* Full width */
   color: white;
+  z-index: 200;
   margin-bottom: 20px;
   &-info {
     display: flex;
@@ -131,7 +133,6 @@ body {
 }
 
 .logo {
-  font-size: -webkit-xxx-large;
 }
 
 
