@@ -1,39 +1,49 @@
-const Story = require('../mongoModels/story');
+const { Card } = require('../models');
 
 const storyController = {
-  getAllStories: (req, res) => {
-    Story.find({}, (err, stories) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
-  },
 
   getStories: (req, res) => {
-    Story.find({ boardId: req.query.board_id }, (err, stories) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
+    Card.findAll({
+      where: {
+        board_id: req.query.board_id,
+        status: 0,
+      },
+    })
+      .then(story => res.status(200).json(story))
+      .catch(err => res.status(400).send(`Story cannot be found: ${err}`));
   },
 
   addStory: (req, res) => {
-    Story.create({
-      boardId: req.body.boardId,
-      name: req.body.name,
-      done: req.body.done,
+    const { boardId, name, status } = req.body;
+    Card.create({
+      board_id: boardId,
+      title: name,
+      status: 0,
     })
-      .then(result => res.json(result))
-      .catch(err => console.error(err));
-  },
-
-  deleteStory: (req, res) => {
-    Story.deleteOne({ _id: req.query._id }, (err, task) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
+      .then(story => res.status(200).json(story))
+      .catch(err => res.status(400).send(`Story not added: ${err}`));
   },
 
   updateStory: (req, res) => {
-    Story.findOneAndUpdate({ _id: req.body._id }, { done: req.body.done }, { new: true }, (err, story) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
-  }
-};
+    Card.update(req.body, {
+        where: { _id: req.body._id }
+      })
+      .then(story => res.status(200).json(story))
+      .catch(err => res.status(400).send(`Story was not updated: ${err}`));
+  },
+
+  deleteStory: (req, res) => {
+    Card.destroy({
+      where: {
+        _id: req.query._id,
+      }
+    })
+      .then(confirm => {
+        console.log(confirm);
+        res.status(200).send(`Story has been deleted: ${confirm}`);
+      })
+      .catch(err => res.status(400).send(`Story could not be deleted: ${err}`));
+  },
+}
 
 module.exports = storyController;

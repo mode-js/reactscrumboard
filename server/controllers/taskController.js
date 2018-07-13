@@ -1,39 +1,49 @@
-const Task = require('../mongoModels/task');
+const { Card } = require('../models');
 
 const taskController = {
 
-  getAllTasks: (req, res) => {
-    Task.find({}, (err, tasks) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
-  },
-
-  deleteTask: (req, res) => {
-    Task.deleteOne({ _id: req.query._id }, (err, task) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
-  },
-
   getTasks: (req, res) => {
-    Task.find({ boardId: req.query.board_id }, (err, tasks) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
+    Card.findAll({
+      where: {
+        board_id: req.query.board_id,
+        status: { $gt: 0 },
+      },
+    })
+      .then(task => res.status(200).json(task))
+      .catch(err => res.status(400).send(`Task cannot be found: ${err}`));
   },
 
   addTask: (req, res) => {
-    Task.create({
-      boardId: req.body.boardId,
-      name: req.body.name,
-      status: req.body.status
-    }).then(result => res.json(result))
-      .catch(err => console.error(err));
+    const { boardId, name, status } = req.body;
+    Card.create({
+      board_id: boardId,
+      title: name,
+      status: status,
+    })
+      .then(task => res.status(200).json(task))
+      .catch(err => res.status(400).send(`Task not added: ${err}`));
   },
 
   updateTask: (req, res) => {
-    Task.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status }, { new: true }, (err, task) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
-  }
+    Card.update(req.body, {
+      where: { _id: req.body._id },
+    })
+      .then(task => res.status(200).json(task))
+      .catch(err => res.status(400).send(`Task was not updated: ${err}`));
+  },
+
+  deleteTask: (req, res) => {
+    Card.destroy({
+      where: {
+        _id: req.query._id,
+      }
+    })
+      .then(confirm => {
+        console.log(confirm);
+        res.status(200).send(`Task has been deleted: ${confirm}`);
+      })
+      .catch(err => res.status(400).send(`Task could not be deleted: ${err}`));
+  },
 }
 
 module.exports = taskController;

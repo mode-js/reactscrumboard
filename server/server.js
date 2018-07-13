@@ -38,6 +38,8 @@ app.get('/stories', userController.checkUserAuth, storyController.getStories);
 app.post('/stories', userController.checkUserAuth, storyController.addStory);
 app.post('/updatestories', userController.checkUserAuth, storyController.updateStory);
 app.delete('/stories', userController.checkUserAuth, storyController.deleteStory);
+
+//we may not need this route anymore.  getStories method should be enough;
 app.get('/allstories', userController.checkUserAuth, storyController.getAllStories);
 
 // BOARD ROUTES

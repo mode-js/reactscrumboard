@@ -4,7 +4,10 @@ const cardController = {
 
   getCards: (req, res) => {
     Card.findAll({
-      where: { board_id: req.query.board_id },
+      where: {
+        board_id: req.query.board_id,
+        status: { $gt: 0 },
+      },
     })
       .then(cards => {
         res.status(200).json(cards);
@@ -13,8 +16,10 @@ const cardController = {
   },
 
   deleteCard: (req, res) => {
-    Card.deleteOne({
-      where: { _id: req.query._id }
+    Card.destroy({
+      where: {
+        _id: req.query._id,
+      }
     })
       .then(confirm => {
         console.log(confirm);
@@ -30,21 +35,16 @@ const cardController = {
       title: name,
       status: status,
     })
-      .then(card => res.status(200).res.json(result))
+      .then(card => res.status(200).json(result))
       .catch(err => res.status(400).send(`Card not added: ${err}`));
   },
 
   //not totally sure how to run this update.  Pushing code for now and can figure it out later.
   updateCard: (req, res) => {
-    Card.update(
-
-      { where: { title: req.body.name } },
-
+    Card.update(req.body, { where: { _id: req.body._id } }
     )
-
-    Card.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status }, { new: true }, (err, card) => {
-      if (err) return console.error(err);
-    }).then(result => res.json(result));
+      .then(card => res.status(200).json(card))
+      .catch(err => res.status(400).send(`Card was not updated: ${err}`));
   }
 }
 
