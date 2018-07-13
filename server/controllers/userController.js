@@ -28,7 +28,7 @@ const userController = {
               })
             .catch(err => {
               res.status(400).send(`User create failed: ${err}`);
-            })
+            });
         }
       })
   },
