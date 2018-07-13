@@ -1,59 +1,59 @@
-const { SimpleUser } = require('../mongo.js');
+const { User } = require('../models');
+
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt-nodejs");
 const SALT_WORK_FACTOR = 10;
-const JWT_SECRET = "somesecretfordeluge";
+const JWT_SECRET = process.env.JWT_SECRET || "somesecretfordeluge";
 
 const userController = {
 
-  login: (req, res) => {    
-    SimpleUser.find({ name: req.body.username }, (err, resMongo) => {
-        if (err) res.send(err);
-        if ( resMongo.length < 1 ) return res.status(500).send({ error: 'username or password incorrect' });
-        else {
-          const userData = resMongo[0];
-          bcrypt.compare(req.body.password, userData.password, function(err, valid) {
-            if (!valid) {
-              return res.status(404).json({
-                error: true,
-                message: "message"
-              });
-            } else {
-              const token = generateToken(userData);
-              res.cookie('usertoken',token, { maxAge: 900000, httpOnly: true });
-              res.status(200).send("Successful Login");
-            }
-          });
-        } 
-      });
-  },
-
+  //Signup method that checks if user exists and hashes new password and stores in database:
   signup: (req, res) => {
-    SimpleUser.find({ name: req.body.username }, (err, resMongo) => {
-        if (resMongo.length) {
-          res.send({ error: 'user exists' });
-        } else {
-          const body = req.body;
-          const hash = bcrypt.hashSync(
-            body.password.trim(),
-            bcrypt.genSaltSync(SALT_WORK_FACTOR)
-          );
-          SimpleUser.create(
-            { name: body.username, password: hash },
-            (err, resMongo) => {
-              const token = generateToken(resMongo);
-              res.cookie('usertoken',token, { maxAge: 900000, httpOnly: true });
-              res.status(200).send("Successful User Creation");
-            }
-          );
+    const { username, password } = req.body;
+    User.findOne({
+      where: { username }
+    })
+      .then(user => {
+        if (user) {
+          return res.status(400).send('Error, this user exists');
         }
-      });
+        else {
+          const hash = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR));
+          User.create({ username, password: hash, })
+            .then(
+              (newUser) => {
+                const token = generateToken(newUser);
+                res.cookie('usertoken', token, { maxAge: 900000, httpOnly: true });
+                res.status(200).send("Successful User Creation");
+              })
+            .catch(err => {
+              res.status(400).send(`User create failed: ${err}`);
+            })
+        }
+      })
   },
 
-  getusers: (req, res) => {
-    SimpleUser.find({}, (err, resMongo) => {
-        res.json(resMongo);
-    });
+  login: (req, res) => {
+    const { username, password } = req.body;
+    User.findOne({
+      where: { username }
+    })
+      .then(
+        user => {
+          const match = bcrypt.compareSync(password, user.password)
+          if (!match) {
+            return res.status(400).send('Invalid Username or Password');
+          }
+          else {
+            const token = generateToken(user);
+            res.cookie('usertoken', token, { maxAge: 900000, httpOnly: true });
+            res.status(200).send("Successful Login");
+          }
+        }
+      )
+      .catch(err => {
+        res.status(400).send(`User create failed: ${err}`);
+      })
   },
 
   logout: (req, res) => {
@@ -61,33 +61,38 @@ const userController = {
     res.send("User Logged Out");
   },
 
+  getusers: (req, res) => {
+    User.find({}, (err, res) => {
+      res.json(res);
+    });
+  },
+
   checkUserAuth: (req, res, next) => {
     const token = req.cookies.usertoken;
     if (!token) return res.status(403).send("No user token provided.");
-    jwt.verify(token, JWT_SECRET, function(err, user) {
+    jwt.verify(token, JWT_SECRET, function (err, user) {
       if (err) {
         return res.status(401).json({
           success: false,
           message: "Please register Log in using a valid email to submit posts"
         });
       } else {
-        req.user = user; 
+        req.user = user;
         next();
       }
     });
   },
+}
 
+function generateToken(user) {
+  const u = {
+    _id: user._id,
+    username: user.username,
+    password: user.password,
+  };
+  return (token = jwt.sign(u, JWT_SECRET, {
+    expiresIn: 60 * 60 * 24 // expires in 24 hours
+  }));
 }
 
 module.exports = userController;
-
-function generateToken(user) {
-    const u = {
-      _id: user._id,
-      name: user.name,
-      password: user.password,
-    };
-    return (token = jwt.sign(u, JWT_SECRET, {
-      expiresIn: 60 * 60 * 24 // expires in 24 hours
-    }));
-  }
