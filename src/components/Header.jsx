@@ -21,9 +21,9 @@ class Header extends Component {
           <div
             onClick={() => {
               axios
-                .post('http://localhost:3000/logout', { _id: this.props.match.params.id })
+                .post('http://localhost:3000/logout')
                 .then(res => {
-                  this.props.logoutUser(this.props.match.params.id);
+                  this.props.logoutUser();
                   this.props.history.push('/');
                 });
             }}
@@ -41,20 +41,13 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ users }, ownProps) => {
-  return {
-    // not sure what this is for at the moment, but its causing errors, so commenting out for now
-    // user: users.filter(user => user._id === ownProps.match.params.id)[0],
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    logoutUser: userId => dispatch(logoutUser(userId)),
+    logoutUser: () => dispatch(logoutUser()),
   };
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Header);

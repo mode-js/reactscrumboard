@@ -8,7 +8,8 @@ import './styles/styles.scss';
 
 const root = document.getElementById('root');
 
-store.dispatch(getUsers());
+// dont need this anymore, but wont delete now
+// store.dispatch(getUsers());
 
 render(
   <Provider store={store}>

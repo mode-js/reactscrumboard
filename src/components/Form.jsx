@@ -32,7 +32,7 @@ class Form extends React.Component {
               this.setState({ formError: res.data.error });
             } else {
               this.setState({ username: '', password: '' });
-              this.props.logInUser(true);
+              this.props.logInUser();
               this.props.history.push(`/test/${res.data._id}`);
             }
           });
@@ -61,7 +61,7 @@ class Form extends React.Component {
               this.setState({ formError: res.data.error });
             } else {
               this.setState({ username: '', password: '' });
-              this.props.logInUser(true);
+              this.props.logInUser();
               this.props.history.push(`/test/${res.data._id}`);
             }
           });
@@ -114,7 +114,7 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    logInUser: (boolflag) => dispatch(logInUser(boolflag)),
+    logInUser: () => dispatch(logInUser()),
     isLoggedIn: id => {
       dispatch(isLoggedIn(id));
     },
