@@ -101,10 +101,12 @@ class Board extends React.Component {
         <div>
           <Header match={this.props.match} history={this.props.history} />
 
-          <div>
-          <h4 className="project_name">{this.props.match.params.board}</h4>
+          <div style={{marginTop:'100px'}}>
             <div className="board-forms">
+            <h4 className="project_name">Project Name: {this.props.match.params.board}</h4>
+
               <form onSubmit={this.handleSubmit}>
+
                 <input
                   type="text"
                   placeholder="Task Name"

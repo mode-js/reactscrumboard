@@ -17,12 +17,11 @@ import { updateStory, deleteStory } from '../actions/stories.js';
 const Task = props => {
   const order = ['todo', 'inProgress', 'testing', 'done'];
   return (
-    <div   className="taskbox">
-         <button
-          className="delete button_clear--small"
-          onClick={() => this.props.deleteTask(this.props.task._id)}
-        >
-          X
+    <div   className="taskbox stories">
+         <button className="delete button_clear--small"
+        onClick={() => props.deleteTask(props.task._id)}
+      >
+        X
         </button>
         <p>{props.name} </p>
 
